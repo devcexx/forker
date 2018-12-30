@@ -9,7 +9,7 @@
 #include <stdbool.h>
 #include <signal.h>
 #include <pthread.h>
-
+#include <sys/wait.h>
 #define LOG_PREFIX "forker: "
 
 char* stdin_fn;
@@ -50,14 +50,13 @@ void* thread_read_input(void* ptr) {
 }
 
 int main(int argc, char** argv) {
-  sigignore(SIGPIPE);
+  signal(SIGPIPE, SIG_IGN);
   
   int pid;
   struct stat s_stat;
   char* stdout_fn;
   char* stderr_fn;
   char** exec_params = argv + 4;
-  int r;
   
   if (argc < 5) {
     printf(LOG_PREFIX "%s <stdin> <stdout> <stderr> <executable> [params]\n", argv[0]);
