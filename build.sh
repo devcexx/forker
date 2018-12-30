@@ -1,2 +1,2 @@
 #!/bin/bash
-cc forker.c -o forker
+gcc -Wall --std=c99 -pthread forker.c -o forker
